@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/BATAS_ADMINISTRASI_AR_0.js"></script>
+        <script src="data/WilayahPerencanaan_1.js"></script>
+        <script src="data/BatasKabupaten_2.js"></script>
+        <script src="data/BatasDesaKelurahan_3.js"></script>
+        <script src="data/DestinasiWisata_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-8.50640389414103,119.77308576881506],[-8.385982920913825,120.10536810907436]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_BATAS_ADMINISTRASI_AR_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KABUPATEN'] !== null ? autolinker.link(feature.properties['KABUPATEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DESA'] !== null ? autolinker.link(feature.properties['DESA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_BATAS_ADMINISTRASI_AR_0_0(feature) {
+            switch(String(feature.properties['DESA'])) {
+                case '[\'Desa Bangka Lewat\', \'Desa Bari\', \'Desa Batu Tiga\', \'Desa Benteng Dewa\', \'Desa Benteng Ndope\', \'Desa Benteng Suru\', \'Desa Benteng Tado\', \'Desa Beo Sepang\', \'Desa Coal\', \'Desa Compang\', \'Desa Compang Kules\', \'Desa Compang Liang Ndara\', \'Desa Compang Longgo\', \'Desa Compang Suka\', \'Desa Cunca Lolos\', \'Desa Cunca Wulang\', \'Desa Daleng\', \'Desa Dunta\', \'Desa Galang\', \'Desa Golo Bilas\', \'Desa Golo Bore\', \'Desa Golo Damu\', \'Desa Golo Desat\', \'Desa Golo Keli\', \'Desa Golo Kempo\', \'Desa Golo Ketak\', \'Desa Golo Kondeng\', \'Desa Golo Lajang\', \'Desa Golo Lajang Barat\', \'Desa Golo Leleng\', \'Desa Golo Lewe\', \'Desa Golo Lujang\', \'Desa Golo Manting\', \'Desa Golo Mbu\', \'Desa Golo Mori\', \'Desa Golo Ndari\', \'Desa Golo Ndaring\', \'Desa Golo Ndoal\', \'Desa Golo Nobo\', \'Desa Golo Poleng\', \'Desa Golo Pongkor\', \'Desa Golo Pua\', \'Desa Golo Riwu\', \'Desa Golo Ronggot\', \'Desa Golo Rua\', \'Desa Golo Sembea\', \'Desa Golo Sengang\', \'Desa Golo Sepang\', \'Desa Golo Tantong\', \'Desa Golo Wedong\', \'Desa Gorontalo\', \'Desa Gurung\', \'Desa Kakor\', \'Desa Kasong\', \'Desa Kempo\', \'Desa Kolang\', \'Desa Kombo\', \'Desa Kombo Selatan\', \'Desa Kombo Tengah\', \'Desa Komodo\', \'Desa Lale\', \'Desa Lalong\', \'Desa Lawi\', \'Desa Lendong\', \'Desa Lewat\', \'Desa Lewur\', \'Desa Liang Ndara\', \'Desa Liang Sola\', \'Desa Loha\', \'Desa Lumut\', \'Desa Macang Tanggar\', \'Desa Manong\', \'Desa Mata Wae\', \'Desa Mbakung\', \'Desa Mbuit\', \'Desa Modo\', \'Desa Momol\', \'Desa Munting\', \'Desa Nampar Macing\', \'Desa Nanga Bere\', \'Desa Nanga Kantor\', \'Desa Nanga Kantor Barat\', \'Desa Nanga Lili\', \'Desa Ndeweng\', \'Desa Ndoso\', \'Desa Ngancar\', \'Desa Nggliat\', \'Desa Nggorang\', \'Desa Orong\', \'Desa Pacar\', \'Desa Pangga\', \'Desa Pantar\', \'Desa Papagarang\', \'Desa Pasir Panjang\', \'Desa Pasir Putih\', \'Desa Pateng Lesu\', \'Desa Pengka\', \'Desa Poco Dedeng\', \'Desa Poco Golo Kempo\', \'Desa Poco Rutang\', \'Desa Pondo\', \'Desa Pong Kolong\', \'Desa Pong Majok\', \'Desa Pong Narang\', \'Desa Pong Welak\', \'Desa Pontianak\', \'Desa Ponto Ara\', \'Desa Pota Wangka\', \'Desa Pulau Nuncung\', \'Desa Raba\', \'Desa Racang Welak\', \'Desa Raka\', \'Desa Ranggu\', \'Desa Rego\', \'Desa Rehak\', \'Desa Repi\', \'Desa Robo\', \'Desa Rokap\', \'Desa Romang\', \'Desa Sama\', \'Desa Sano Nggoang\', \'Desa Saraenaru\', \'Desa Semang\', \'Desa Sepang\', \'Desa Seraya Maranu\', \'Desa Sewar\', \'Desa Siru\', \'Desa Sompang Kolang\', \'Desa Suka Kiong\', \'Desa Surunumbeng\', \'Desa Tanjung Boleng\', \'Desa Tehong\', \'Desa Tengku\', \'Desa Tentang\', \'Desa Tiwu Nampar\', \'Desa Tiwu Riwung\', \'Desa Tondong Belang\', \'Desa Tueng\', \'Desa Wae Bangka\', \'Desa Wae Buka\', \'Desa Wae Jare\', \'Desa Wae Kanta\', \'Desa Wae Lolos\', \'Desa Wae Mose\', \'Desa Wae Mowol\', \'Desa Wae Sano\', \'Desa Wae Wako\', \'Desa Wajur\', \'Desa Waka\', \'Desa Waning\', \'Desa Warloka\', \'Desa Waru Rambung\', \'Desa Watu Baru\', \'Desa Watu Galang\', \'Desa Watu Manggar\', \'Desa Watu Nggelek\', \'Desa Watu Panggal\', \'Desa Watu Tiri\', \'Desa Watu Umpu\', \'Desa Watu Waja\', \'Desa Watu Wangka\', \'Desa Wewa\', \'Desa Wontong\', \'Kel. Golo Ruu\', \'Kel. Nantal\', \'Kel. Tangge\', \'Kel. Wae Kelambu\']':
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                opacity: 1,
+                color: 'rgba(255,255,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case '[\'Kel. Labuan Bajo\', \'Desa Batu Cermin\']':
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                opacity: 1,
+                color: 'rgba(255,255,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        function style_BATAS_ADMINISTRASI_AR_0_1(feature) {
+            switch(String(feature.properties['DESA'])) {
+                case '[\'Desa Bangka Lewat\', \'Desa Bari\', \'Desa Batu Tiga\', \'Desa Benteng Dewa\', \'Desa Benteng Ndope\', \'Desa Benteng Suru\', \'Desa Benteng Tado\', \'Desa Beo Sepang\', \'Desa Coal\', \'Desa Compang\', \'Desa Compang Kules\', \'Desa Compang Liang Ndara\', \'Desa Compang Longgo\', \'Desa Compang Suka\', \'Desa Cunca Lolos\', \'Desa Cunca Wulang\', \'Desa Daleng\', \'Desa Dunta\', \'Desa Galang\', \'Desa Golo Bilas\', \'Desa Golo Bore\', \'Desa Golo Damu\', \'Desa Golo Desat\', \'Desa Golo Keli\', \'Desa Golo Kempo\', \'Desa Golo Ketak\', \'Desa Golo Kondeng\', \'Desa Golo Lajang\', \'Desa Golo Lajang Barat\', \'Desa Golo Leleng\', \'Desa Golo Lewe\', \'Desa Golo Lujang\', \'Desa Golo Manting\', \'Desa Golo Mbu\', \'Desa Golo Mori\', \'Desa Golo Ndari\', \'Desa Golo Ndaring\', \'Desa Golo Ndoal\', \'Desa Golo Nobo\', \'Desa Golo Poleng\', \'Desa Golo Pongkor\', \'Desa Golo Pua\', \'Desa Golo Riwu\', \'Desa Golo Ronggot\', \'Desa Golo Rua\', \'Desa Golo Sembea\', \'Desa Golo Sengang\', \'Desa Golo Sepang\', \'Desa Golo Tantong\', \'Desa Golo Wedong\', \'Desa Gorontalo\', \'Desa Gurung\', \'Desa Kakor\', \'Desa Kasong\', \'Desa Kempo\', \'Desa Kolang\', \'Desa Kombo\', \'Desa Kombo Selatan\', \'Desa Kombo Tengah\', \'Desa Komodo\', \'Desa Lale\', \'Desa Lalong\', \'Desa Lawi\', \'Desa Lendong\', \'Desa Lewat\', \'Desa Lewur\', \'Desa Liang Ndara\', \'Desa Liang Sola\', \'Desa Loha\', \'Desa Lumut\', \'Desa Macang Tanggar\', \'Desa Manong\', \'Desa Mata Wae\', \'Desa Mbakung\', \'Desa Mbuit\', \'Desa Modo\', \'Desa Momol\', \'Desa Munting\', \'Desa Nampar Macing\', \'Desa Nanga Bere\', \'Desa Nanga Kantor\', \'Desa Nanga Kantor Barat\', \'Desa Nanga Lili\', \'Desa Ndeweng\', \'Desa Ndoso\', \'Desa Ngancar\', \'Desa Nggliat\', \'Desa Nggorang\', \'Desa Orong\', \'Desa Pacar\', \'Desa Pangga\', \'Desa Pantar\', \'Desa Papagarang\', \'Desa Pasir Panjang\', \'Desa Pasir Putih\', \'Desa Pateng Lesu\', \'Desa Pengka\', \'Desa Poco Dedeng\', \'Desa Poco Golo Kempo\', \'Desa Poco Rutang\', \'Desa Pondo\', \'Desa Pong Kolong\', \'Desa Pong Majok\', \'Desa Pong Narang\', \'Desa Pong Welak\', \'Desa Pontianak\', \'Desa Ponto Ara\', \'Desa Pota Wangka\', \'Desa Pulau Nuncung\', \'Desa Raba\', \'Desa Racang Welak\', \'Desa Raka\', \'Desa Ranggu\', \'Desa Rego\', \'Desa Rehak\', \'Desa Repi\', \'Desa Robo\', \'Desa Rokap\', \'Desa Romang\', \'Desa Sama\', \'Desa Sano Nggoang\', \'Desa Saraenaru\', \'Desa Semang\', \'Desa Sepang\', \'Desa Seraya Maranu\', \'Desa Sewar\', \'Desa Siru\', \'Desa Sompang Kolang\', \'Desa Suka Kiong\', \'Desa Surunumbeng\', \'Desa Tanjung Boleng\', \'Desa Tehong\', \'Desa Tengku\', \'Desa Tentang\', \'Desa Tiwu Nampar\', \'Desa Tiwu Riwung\', \'Desa Tondong Belang\', \'Desa Tueng\', \'Desa Wae Bangka\', \'Desa Wae Buka\', \'Desa Wae Jare\', \'Desa Wae Kanta\', \'Desa Wae Lolos\', \'Desa Wae Mose\', \'Desa Wae Mowol\', \'Desa Wae Sano\', \'Desa Wae Wako\', \'Desa Wajur\', \'Desa Waka\', \'Desa Waning\', \'Desa Warloka\', \'Desa Waru Rambung\', \'Desa Watu Baru\', \'Desa Watu Galang\', \'Desa Watu Manggar\', \'Desa Watu Nggelek\', \'Desa Watu Panggal\', \'Desa Watu Tiri\', \'Desa Watu Umpu\', \'Desa Watu Waja\', \'Desa Watu Wangka\', \'Desa Wewa\', \'Desa Wontong\', \'Kel. Golo Ruu\', \'Kel. Nantal\', \'Kel. Tangge\', \'Kel. Wae Kelambu\']':
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case '[\'Kel. Labuan Bajo\', \'Desa Batu Cermin\']':
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        function style_BATAS_ADMINISTRASI_AR_0_2(feature) {
+            switch(String(feature.properties['DESA'])) {
+                case '[\'Desa Bangka Lewat\', \'Desa Bari\', \'Desa Batu Tiga\', \'Desa Benteng Dewa\', \'Desa Benteng Ndope\', \'Desa Benteng Suru\', \'Desa Benteng Tado\', \'Desa Beo Sepang\', \'Desa Coal\', \'Desa Compang\', \'Desa Compang Kules\', \'Desa Compang Liang Ndara\', \'Desa Compang Longgo\', \'Desa Compang Suka\', \'Desa Cunca Lolos\', \'Desa Cunca Wulang\', \'Desa Daleng\', \'Desa Dunta\', \'Desa Galang\', \'Desa Golo Bilas\', \'Desa Golo Bore\', \'Desa Golo Damu\', \'Desa Golo Desat\', \'Desa Golo Keli\', \'Desa Golo Kempo\', \'Desa Golo Ketak\', \'Desa Golo Kondeng\', \'Desa Golo Lajang\', \'Desa Golo Lajang Barat\', \'Desa Golo Leleng\', \'Desa Golo Lewe\', \'Desa Golo Lujang\', \'Desa Golo Manting\', \'Desa Golo Mbu\', \'Desa Golo Mori\', \'Desa Golo Ndari\', \'Desa Golo Ndaring\', \'Desa Golo Ndoal\', \'Desa Golo Nobo\', \'Desa Golo Poleng\', \'Desa Golo Pongkor\', \'Desa Golo Pua\', \'Desa Golo Riwu\', \'Desa Golo Ronggot\', \'Desa Golo Rua\', \'Desa Golo Sembea\', \'Desa Golo Sengang\', \'Desa Golo Sepang\', \'Desa Golo Tantong\', \'Desa Golo Wedong\', \'Desa Gorontalo\', \'Desa Gurung\', \'Desa Kakor\', \'Desa Kasong\', \'Desa Kempo\', \'Desa Kolang\', \'Desa Kombo\', \'Desa Kombo Selatan\', \'Desa Kombo Tengah\', \'Desa Komodo\', \'Desa Lale\', \'Desa Lalong\', \'Desa Lawi\', \'Desa Lendong\', \'Desa Lewat\', \'Desa Lewur\', \'Desa Liang Ndara\', \'Desa Liang Sola\', \'Desa Loha\', \'Desa Lumut\', \'Desa Macang Tanggar\', \'Desa Manong\', \'Desa Mata Wae\', \'Desa Mbakung\', \'Desa Mbuit\', \'Desa Modo\', \'Desa Momol\', \'Desa Munting\', \'Desa Nampar Macing\', \'Desa Nanga Bere\', \'Desa Nanga Kantor\', \'Desa Nanga Kantor Barat\', \'Desa Nanga Lili\', \'Desa Ndeweng\', \'Desa Ndoso\', \'Desa Ngancar\', \'Desa Nggliat\', \'Desa Nggorang\', \'Desa Orong\', \'Desa Pacar\', \'Desa Pangga\', \'Desa Pantar\', \'Desa Papagarang\', \'Desa Pasir Panjang\', \'Desa Pasir Putih\', \'Desa Pateng Lesu\', \'Desa Pengka\', \'Desa Poco Dedeng\', \'Desa Poco Golo Kempo\', \'Desa Poco Rutang\', \'Desa Pondo\', \'Desa Pong Kolong\', \'Desa Pong Majok\', \'Desa Pong Narang\', \'Desa Pong Welak\', \'Desa Pontianak\', \'Desa Ponto Ara\', \'Desa Pota Wangka\', \'Desa Pulau Nuncung\', \'Desa Raba\', \'Desa Racang Welak\', \'Desa Raka\', \'Desa Ranggu\', \'Desa Rego\', \'Desa Rehak\', \'Desa Repi\', \'Desa Robo\', \'Desa Rokap\', \'Desa Romang\', \'Desa Sama\', \'Desa Sano Nggoang\', \'Desa Saraenaru\', \'Desa Semang\', \'Desa Sepang\', \'Desa Seraya Maranu\', \'Desa Sewar\', \'Desa Siru\', \'Desa Sompang Kolang\', \'Desa Suka Kiong\', \'Desa Surunumbeng\', \'Desa Tanjung Boleng\', \'Desa Tehong\', \'Desa Tengku\', \'Desa Tentang\', \'Desa Tiwu Nampar\', \'Desa Tiwu Riwung\', \'Desa Tondong Belang\', \'Desa Tueng\', \'Desa Wae Bangka\', \'Desa Wae Buka\', \'Desa Wae Jare\', \'Desa Wae Kanta\', \'Desa Wae Lolos\', \'Desa Wae Mose\', \'Desa Wae Mowol\', \'Desa Wae Sano\', \'Desa Wae Wako\', \'Desa Wajur\', \'Desa Waka\', \'Desa Waning\', \'Desa Warloka\', \'Desa Waru Rambung\', \'Desa Watu Baru\', \'Desa Watu Galang\', \'Desa Watu Manggar\', \'Desa Watu Nggelek\', \'Desa Watu Panggal\', \'Desa Watu Tiri\', \'Desa Watu Umpu\', \'Desa Watu Waja\', \'Desa Watu Wangka\', \'Desa Wewa\', \'Desa Wontong\', \'Kel. Golo Ruu\', \'Kel. Nantal\', \'Kel. Tangge\', \'Kel. Wae Kelambu\']':
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: false,
+            }
+                    break;
+                case '[\'Kel. Labuan Bajo\', \'Desa Batu Cermin\']':
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,0,255,0.0)',
+                interactive: false,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_BATAS_ADMINISTRASI_AR_0');
+        map.getPane('pane_BATAS_ADMINISTRASI_AR_0').style.zIndex = 400;
+        map.getPane('pane_BATAS_ADMINISTRASI_AR_0').style['mix-blend-mode'] = 'normal';
+        var layer_BATAS_ADMINISTRASI_AR_0 = new L.geoJson.multiStyle(json_BATAS_ADMINISTRASI_AR_0, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BATAS_ADMINISTRASI_AR_0',
+            layerName: 'layer_BATAS_ADMINISTRASI_AR_0',
+            pane: 'pane_BATAS_ADMINISTRASI_AR_0',
+            onEachFeature: pop_BATAS_ADMINISTRASI_AR_0,
+            styles: [style_BATAS_ADMINISTRASI_AR_0_0,style_BATAS_ADMINISTRASI_AR_0_1,style_BATAS_ADMINISTRASI_AR_0_2,]
+        });
+        bounds_group.addLayer(layer_BATAS_ADMINISTRASI_AR_0);
+        map.addLayer(layer_BATAS_ADMINISTRASI_AR_0);
+        function pop_WilayahPerencanaan_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KABUPATEN'] !== null ? autolinker.link(feature.properties['KABUPATEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DESA'] !== null ? autolinker.link(feature.properties['DESA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_WilayahPerencanaan_1_0() {
+            return {
+                pane: 'pane_WilayahPerencanaan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(217,217,217,1.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_WilayahPerencanaan_1');
+        map.getPane('pane_WilayahPerencanaan_1').style.zIndex = 401;
+        map.getPane('pane_WilayahPerencanaan_1').style['mix-blend-mode'] = 'normal';
+        var layer_WilayahPerencanaan_1 = new L.geoJson(json_WilayahPerencanaan_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_WilayahPerencanaan_1',
+            layerName: 'layer_WilayahPerencanaan_1',
+            pane: 'pane_WilayahPerencanaan_1',
+            onEachFeature: pop_WilayahPerencanaan_1,
+            style: style_WilayahPerencanaan_1_0,
+        });
+        bounds_group.addLayer(layer_WilayahPerencanaan_1);
+        map.addLayer(layer_WilayahPerencanaan_1);
+        function pop_BatasKabupaten_2(feature, layer) {
+        }
+
+        function style_BatasKabupaten_2_0() {
+            return {
+                pane: 'pane_BatasKabupaten_2',
+                opacity: 1,
+                color: 'rgba(255,255,255,0.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        function style_BatasKabupaten_2_1() {
+            return {
+                pane: 'pane_BatasKabupaten_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_BatasKabupaten_2');
+        map.getPane('pane_BatasKabupaten_2').style.zIndex = 402;
+        map.getPane('pane_BatasKabupaten_2').style['mix-blend-mode'] = 'normal';
+        var layer_BatasKabupaten_2 = new L.geoJson.multiStyle(json_BatasKabupaten_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BatasKabupaten_2',
+            layerName: 'layer_BatasKabupaten_2',
+            pane: 'pane_BatasKabupaten_2',
+            onEachFeature: pop_BatasKabupaten_2,
+            styles: [style_BatasKabupaten_2_0,style_BatasKabupaten_2_1,]
+        });
+        bounds_group.addLayer(layer_BatasKabupaten_2);
+        map.addLayer(layer_BatasKabupaten_2);
+        function pop_BatasDesaKelurahan_3(feature, layer) {
+        }
+
+        function style_BatasDesaKelurahan_3_0() {
+            return {
+                pane: 'pane_BatasDesaKelurahan_3',
+                opacity: 1,
+                color: 'rgba(255,255,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        function style_BatasDesaKelurahan_3_1() {
+            return {
+                pane: 'pane_BatasDesaKelurahan_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_BatasDesaKelurahan_3');
+        map.getPane('pane_BatasDesaKelurahan_3').style.zIndex = 403;
+        map.getPane('pane_BatasDesaKelurahan_3').style['mix-blend-mode'] = 'normal';
+        var layer_BatasDesaKelurahan_3 = new L.geoJson.multiStyle(json_BatasDesaKelurahan_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BatasDesaKelurahan_3',
+            layerName: 'layer_BatasDesaKelurahan_3',
+            pane: 'pane_BatasDesaKelurahan_3',
+            onEachFeature: pop_BatasDesaKelurahan_3,
+            styles: [style_BatasDesaKelurahan_3_0,style_BatasDesaKelurahan_3_1,]
+        });
+        bounds_group.addLayer(layer_BatasDesaKelurahan_3);
+        map.addLayer(layer_BatasDesaKelurahan_3);
+        function pop_DestinasiWisata_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>NAMOBJ</strong><br />' + (feature.properties['NAMOBJ'] !== null ? autolinker.link(feature.properties['NAMOBJ'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['JENIS'] !== null ? autolinker.link(feature.properties['JENIS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SBDATA'] !== null ? autolinker.link(feature.properties['SBDATA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Foto'] !== null ? '<img src="images/' + String(feature.properties['Foto']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DestinasiWisata_4_0() {
+            return {
+                pane: 'pane_DestinasiWisata_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(128,17,25,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,30,42,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_DestinasiWisata_4');
+        map.getPane('pane_DestinasiWisata_4').style.zIndex = 404;
+        map.getPane('pane_DestinasiWisata_4').style['mix-blend-mode'] = 'normal';
+        var layer_DestinasiWisata_4 = new L.geoJson(json_DestinasiWisata_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DestinasiWisata_4',
+            layerName: 'layer_DestinasiWisata_4',
+            pane: 'pane_DestinasiWisata_4',
+            onEachFeature: pop_DestinasiWisata_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_DestinasiWisata_4_0(feature));
+            },
+        });
+        var cluster_DestinasiWisata_4 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_DestinasiWisata_4.addLayer(layer_DestinasiWisata_4);
+
+        bounds_group.addLayer(layer_DestinasiWisata_4);
+        cluster_DestinasiWisata_4.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/DestinasiWisata_4.png" /> Destinasi Wisata': cluster_DestinasiWisata_4,'<img src="legend/BatasDesaKelurahan_3.png" /> Batas Desa/ Kelurahan': layer_BatasDesaKelurahan_3,'<img src="legend/BatasKabupaten_2.png" /> Batas Kabupaten': layer_BatasKabupaten_2,'<img src="legend/WilayahPerencanaan_1.png" /> Wilayah Perencanaan': layer_WilayahPerencanaan_1,'BATAS_ADMINISTRASI_AR<br /><table><tr><td style="text-align: center;"><img src="legend/BATAS_ADMINISTRASI_AR_0_AdministrasiLuar0.png" /></td><td>Administrasi Luar</td></tr><tr><td style="text-align: center;"><img src="legend/BATAS_ADMINISTRASI_AR_0_PerkotaanLabuanBajo1.png" /></td><td>Perkotaan Labuan Bajo</td></tr><tr><td style="text-align: center;"><img src="legend/BATAS_ADMINISTRASI_AR_0_2.png" /></td><td></td></tr></table>': layer_BATAS_ADMINISTRASI_AR_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_BATAS_ADMINISTRASI_AR_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['DESA'] !== null?String('<div style="color: #000000; font-size: 17pt; font-weight: bold; font-style: italic; font-family: \'Bookman Old Style\', sans-serif;">' + layer.feature.properties['DESA']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BATAS_ADMINISTRASI_AR_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: cluster_DestinasiWisata_4,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'NAMOBJ'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"NAMOBJ": "str","JENIS": "str","Foto": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_BATAS_ADMINISTRASI_AR_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['DESA'] !== null?String('<div style="color: #000000; font-size: 17pt; font-weight: bold; font-style: italic; font-family: \'Bookman Old Style\', sans-serif;">' + layer.feature.properties['DESA']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BATAS_ADMINISTRASI_AR_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_NAMOBJ = document.createElement('div');
+            div_NAMOBJ.id = "div_NAMOBJ";
+            div_NAMOBJ.className= "filterselect";
+            document.getElementById("menu").appendChild(div_NAMOBJ);
+            sel_NAMOBJ = document.createElement('select');
+            sel_NAMOBJ.multiple = true;
+            sel_NAMOBJ.size = 10;
+            sel_NAMOBJ.id = "sel_NAMOBJ";
+            var NAMOBJ_options_str = "<option value='' unselected></option>";
+            sel_NAMOBJ.onchange = function(){filterFunc()};
+            NAMOBJ_options_str  += '<option value="Batu Bolong">Batu Bolong</option>';
+            NAMOBJ_options_str  += '<option value="Batu Cermin">Batu Cermin</option>';
+            NAMOBJ_options_str  += '<option value="Batu Susun">Batu Susun</option>';
+            NAMOBJ_options_str  += '<option value="Benteng Tanah">Benteng Tanah</option>';
+            NAMOBJ_options_str  += '<option value="Benteng Wongkol">Benteng Wongkol</option>';
+            NAMOBJ_options_str  += '<option value="Bukit Binongko">Bukit Binongko</option>';
+            NAMOBJ_options_str  += '<option value="Bukit Prisai Ponto Ara">Bukit Prisai Ponto Ara</option>';
+            NAMOBJ_options_str  += '<option value="Bukit Verhoven">Bukit Verhoven</option>';
+            NAMOBJ_options_str  += '<option value="Compang Lale">Compang Lale</option>';
+            NAMOBJ_options_str  += '<option value="Cunca Lolos">Cunca Lolos</option>';
+            NAMOBJ_options_str  += '<option value="Cunca Pau Jongkong">Cunca Pau Jongkong</option>';
+            NAMOBJ_options_str  += '<option value="Cunca Polo">Cunca Polo</option>';
+            NAMOBJ_options_str  += '<option value="Cunca Rami">Cunca Rami</option>';
+            NAMOBJ_options_str  += '<option value="Cunca Wulang">Cunca Wulang</option>';
+            NAMOBJ_options_str  += '<option value="Danau Dolat">Danau Dolat</option>';
+            NAMOBJ_options_str  += '<option value="Danau Sano Nggoang">Danau Sano Nggoang</option>';
+            NAMOBJ_options_str  += '<option value="Dangka Pat">Dangka Pat</option>';
+            NAMOBJ_options_str  += '<option value="Golo Lesu">Golo Lesu</option>';
+            NAMOBJ_options_str  += '<option value="Golo Mori">Golo Mori</option>';
+            NAMOBJ_options_str  += '<option value="Gua Empo Sanga">Gua Empo Sanga</option>';
+            NAMOBJ_options_str  += '<option value="Gua Istana Ular">Gua Istana Ular</option>';
+            NAMOBJ_options_str  += '<option value="Gua Liang Ndara">Gua Liang Ndara</option>';
+            NAMOBJ_options_str  += '<option value="Gua Liang Rodak">Gua Liang Rodak</option>';
+            NAMOBJ_options_str  += '<option value="Gua Nisi Ketek">Gua Nisi Ketek</option>';
+            NAMOBJ_options_str  += '<option value="Gua Rangko">Gua Rangko</option>';
+            NAMOBJ_options_str  += '<option value="Kampung Cecer">Kampung Cecer</option>';
+            NAMOBJ_options_str  += '<option value="Kampung Melo">Kampung Melo</option>';
+            NAMOBJ_options_str  += '<option value="Kampung Tado">Kampung Tado</option>';
+            NAMOBJ_options_str  += '<option value="Klumpang">Klumpang</option>';
+            NAMOBJ_options_str  += '<option value="Kompo Nepa">Kompo Nepa</option>';
+            NAMOBJ_options_str  += '<option value="Kubur Tua Nggerang">Kubur Tua Nggerang</option>';
+            NAMOBJ_options_str  += '<option value="Lemes">Lemes</option>';
+            NAMOBJ_options_str  += '<option value="Loh Buaya Taman Nasional Komodo">Loh Buaya Taman Nasional Komodo</option>';
+            NAMOBJ_options_str  += '<option value="Loh Gili Lawa">Loh Gili Lawa</option>';
+            NAMOBJ_options_str  += '<option value="Loh Kima">Loh Kima</option>';
+            NAMOBJ_options_str  += '<option value="Loh Liang">Loh Liang</option>';
+            NAMOBJ_options_str  += '<option value="Loh Tala">Loh Tala</option>';
+            NAMOBJ_options_str  += '<option value="Loh Udasami">Loh Udasami</option>';
+            NAMOBJ_options_str  += '<option value="Manta Point">Manta Point</option>';
+            NAMOBJ_options_str  += '<option value="Nisa Saloka">Nisa Saloka</option>';
+            NAMOBJ_options_str  += '<option value="Pacar Pu&apos;u">Pacar Pu&apos;u</option>';
+            NAMOBJ_options_str  += '<option value="Pantai Gorontalo">Pantai Gorontalo</option>';
+            NAMOBJ_options_str  += '<option value="Pantai Mberenang">Pantai Mberenang</option>';
+            NAMOBJ_options_str  += '<option value="Pantai Mejerite">Pantai Mejerite</option>';
+            NAMOBJ_options_str  += '<option value="Pantai Merah">Pantai Merah</option>';
+            NAMOBJ_options_str  += '<option value="Pantai Pede">Pantai Pede</option>';
+            NAMOBJ_options_str  += '<option value="Pantai Repi">Pantai Repi</option>';
+            NAMOBJ_options_str  += '<option value="Patung Manusia Pong Welak">Patung Manusia Pong Welak</option>';
+            NAMOBJ_options_str  += '<option value="Poco Rutang">Poco Rutang</option>';
+            NAMOBJ_options_str  += '<option value="Puar Lolo">Puar Lolo</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Bidadari">Pulau Bidadari</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Burung">Pulau Burung</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Kalong">Pulau Kalong</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Kanawa">Pulau Kanawa</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Kelor">Pulau Kelor</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Lasa">Pulau Lasa</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Mote">Pulau Mote</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Muang">Pulau Muang</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Padar">Pulau Padar</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Penga">Pulau Penga</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Pungu">Pulau Pungu</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Punya">Pulau Punya</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Sabolo">Pulau Sabolo</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Sebabi">Pulau Sebabi</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Sebayur">Pulau Sebayur</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Selaba">Pulau Selaba</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Sembilan">Pulau Sembilan</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Sera">Pulau Sera</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Seraya Kecil">Pulau Seraya Kecil</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Seture">Pulau Seture</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Sitonda">Pulau Sitonda</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Tatawa">Pulau Tatawa</option>';
+            NAMOBJ_options_str  += '<option value="Pulau Ular">Pulau Ular</option>';
+            NAMOBJ_options_str  += '<option value="Puncak Pramuka">Puncak Pramuka</option>';
+            NAMOBJ_options_str  += '<option value="Puncak Waringin">Puncak Waringin</option>';
+            NAMOBJ_options_str  += '<option value="Sano Limbung">Sano Limbung</option>';
+            NAMOBJ_options_str  += '<option value="Surunumbeng">Surunumbeng</option>';
+            NAMOBJ_options_str  += '<option value="Taka Makasar">Taka Makasar</option>';
+            NAMOBJ_options_str  += '<option value="Tanjung Rangko">Tanjung Rangko</option>';
+            NAMOBJ_options_str  += '<option value="Tiwu Tuang">Tiwu Tuang</option>';
+            NAMOBJ_options_str  += '<option value="Toro Sitangga">Toro Sitangga</option>';
+            NAMOBJ_options_str  += '<option value="Wae Bobok">Wae Bobok</option>';
+            NAMOBJ_options_str  += '<option value="Wae Cicu">Wae Cicu</option>';
+            NAMOBJ_options_str  += '<option value="Wae Kolang Repi">Wae Kolang Repi</option>';
+            NAMOBJ_options_str  += '<option value="Wae Rana">Wae Rana</option>';
+            NAMOBJ_options_str  += '<option value="Waloka">Waloka</option>';
+            NAMOBJ_options_str  += '<option value="Watu Balok Tureng">Watu Balok Tureng</option>';
+            NAMOBJ_options_str  += '<option value="Watu Panggal">Watu Panggal</option>';
+            NAMOBJ_options_str  += '<option value="Watu Pola">Watu Pola</option>';
+            NAMOBJ_options_str  += '<option value="Watu Timbang Raung">Watu Timbang Raung</option>';
+            NAMOBJ_options_str  += '<option value="Watu Weri">Watu Weri</option>';
+            sel_NAMOBJ.innerHTML = NAMOBJ_options_str;
+            div_NAMOBJ.appendChild(sel_NAMOBJ);
+            var lab_NAMOBJ = document.createElement('div');
+            lab_NAMOBJ.innerHTML = 'NAMOBJ';
+            lab_NAMOBJ.className = 'filterlabel';
+            div_NAMOBJ.appendChild(lab_NAMOBJ);
+            var reset_NAMOBJ = document.createElement('div');
+            reset_NAMOBJ.innerHTML = 'clear filter';
+            reset_NAMOBJ.className = 'filterlabel';
+            reset_NAMOBJ.onclick = function() {
+                var options = document.getElementById("sel_NAMOBJ").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_NAMOBJ.appendChild(reset_NAMOBJ);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_JENIS = document.createElement('div');
+            div_JENIS.id = "div_JENIS";
+            div_JENIS.className= "filterselect";
+            document.getElementById("menu").appendChild(div_JENIS);
+            sel_JENIS = document.createElement('select');
+            sel_JENIS.multiple = true;
+            sel_JENIS.size = 3;
+            sel_JENIS.id = "sel_JENIS";
+            var JENIS_options_str = "<option value='' unselected></option>";
+            sel_JENIS.onchange = function(){filterFunc()};
+            JENIS_options_str  += '<option value="Wisata Alam">Wisata Alam</option>';
+            JENIS_options_str  += '<option value="Wisata Buatan">Wisata Buatan</option>';
+            JENIS_options_str  += '<option value="Wisata Budaya">Wisata Budaya</option>';
+            sel_JENIS.innerHTML = JENIS_options_str;
+            div_JENIS.appendChild(sel_JENIS);
+            var lab_JENIS = document.createElement('div');
+            lab_JENIS.innerHTML = 'JENIS';
+            lab_JENIS.className = 'filterlabel';
+            div_JENIS.appendChild(lab_JENIS);
+            var reset_JENIS = document.createElement('div');
+            reset_JENIS.innerHTML = 'clear filter';
+            reset_JENIS.className = 'filterlabel';
+            reset_JENIS.onclick = function() {
+                var options = document.getElementById("sel_JENIS").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_JENIS.appendChild(reset_JENIS);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Foto = document.createElement('div');
+            div_Foto.id = "div_Foto";
+            div_Foto.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Foto);
+            sel_Foto = document.createElement('select');
+            sel_Foto.multiple = true;
+            sel_Foto.size = 3;
+            sel_Foto.id = "sel_Foto";
+            var Foto_options_str = "<option value='' unselected></option>";
+            sel_Foto.onchange = function(){filterFunc()};
+            Foto_options_str  += '<option value="NULL">NULL</option>';
+            Foto_options_str  += '<option value="C:\Users\NITRO5\Downloads\DJI_0096.jpg">C:\Users\NITRO5\Downloads\DJI_0096.jpg</option>';
+            Foto_options_str  += '<option value="E:\Wira\logo-removebg-preview.png">E:\Wira\logo-removebg-preview.png</option>';
+            sel_Foto.innerHTML = Foto_options_str;
+            div_Foto.appendChild(sel_Foto);
+            var lab_Foto = document.createElement('div');
+            lab_Foto.innerHTML = 'Foto';
+            lab_Foto.className = 'filterlabel';
+            div_Foto.appendChild(lab_Foto);
+            var reset_Foto = document.createElement('div');
+            reset_Foto.innerHTML = 'clear filter';
+            reset_Foto.className = 'filterlabel';
+            reset_Foto.onclick = function() {
+                var options = document.getElementById("sel_Foto").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Foto.appendChild(reset_Foto);
+        resetLabels([layer_BATAS_ADMINISTRASI_AR_0]);
+        map.on("zoomend", function(){
+            resetLabels([layer_BATAS_ADMINISTRASI_AR_0]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_BATAS_ADMINISTRASI_AR_0]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_BATAS_ADMINISTRASI_AR_0]);
+        });
+        </script>
+    </body>
+</html>
